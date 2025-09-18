@@ -6,7 +6,7 @@ import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/f
 // --- PRO PLUS SCRIPT (UPGRADED & FIXED) ---
 
 // --- Core Variables ---
-const GEMINI_API_KEY = ""; // Provided by environment
+const GEMINI_API_KEY = "AIzaSyAThiqodRdUJCmqfJc-6ddrglcpPBU7hT0"; // Provided by environment
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
 
 let proData = {};
@@ -2322,3 +2322,4 @@ window.handleUserNameChange = (input) => {
         }
     }, 500);
 }
+
