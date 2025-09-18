@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Portal — Secure Access</title>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-1kzOEpyL85Wdqy7PoT3P8xwlvNHVrh7hNJYVjeXcwv2cD+2JqYQEkBYWouu9qz3IuRgXvxzwdhs7tJYlaqy4Iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    /* RESET & GLOBALS */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body,html{font-family:'Poppins',sans-serif;min-height:100vh}
+
+    /* BACKGROUND (Apple‑inspired slideshow, mobile‑safe) */
+    body{
+      display:flex;justify-content:center;align-items:center;
+      background:url("https://512pixels.net/downloads/macos-wallpapers-6k/14-Sonoma-Light.jpg") center/cover no-repeat;
+      animation:changeBg 18s ease-in-out infinite;
+      position:relative;overflow-x:hidden;
+    }
+   @keyframes changeBg {
+      0%   { background-image: url('loim1.jpg'); }
+      50%  { background-image: url('loim2.jpg'); }
+      100% { background-image: url('loim3.jpg'); }
+    }
+      50%  { background-image: url('https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1920&q=80'); }
+      100% { background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1920&q=80'); }
+    }
+    body::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:-1}
+
+    /* LOGIN CARD */
+    .login-card{
+      width:min(380px,92vw);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:24px;
+      padding:clamp(1.6rem,5vw,2.4rem) clamp(1.1rem,4.5vw,1.9rem) clamp(2.1rem,6vw,2.8rem);
+      display:flex;flex-direction:column;align-items:center;gap:clamp(1rem,3vw,1.6rem);
+      box-shadow:0 8px 32px rgba(0,0,0,.4);backdrop-filter:blur(16px);position:relative;
+      transition:transform .6s cubic-bezier(.22,1,.36,1);
+    }
+    .login-card.fade-out{animation:fadeOut .8s forwards ease}
+    @keyframes fadeOut{to{opacity:0;transform:scale(.9)}}
+
+    /* PROFILE PIC */
+    .profile-pic{position:relative;width:clamp(90px,26vw,112px);height:clamp(90px,26vw,112px);border-radius:50%;overflow:hidden;border:3px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center}
+    .profile-pic img{width:100%;height:100%;object-fit:cover}
+    .profile-pic::after{content:'Hi';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);color:#fff;font-weight:600;font-size:1.1rem;opacity:0;transform:scale(.9);transition:opacity .25s,transform .25s;border-radius:50%}
+    .profile-pic:hover::after,.profile-pic:focus-visible::after{opacity:1;transform:scale(1)}
+
+    /* FORM */
+    form{width:100%;display:flex;flex-direction:column;gap:1.1rem}
+    .input-field{position:relative}
+    input{width:100%;padding:.9rem 2.6rem .9rem 1rem;border:none;border-radius:14px;font-size:1rem;background:rgba(255,255,255,.25);color:#fff;backdrop-filter:blur(6px);outline:none;transition:background .3s}
+    input::placeholder{color:rgba(255,255,255,.75)}input:focus{background:rgba(255,255,255,.35)}
+    .toggle-eye{position:absolute;top:50%;right:.9rem;transform:translateY(-50%);font-size:1.1rem;color:#fff;opacity:.8;cursor:pointer;transition:opacity .25s}
+    .toggle-eye:active{opacity:1}
+
+    button{border:none;background:rgba(255,255,255,.35);color:#fff;padding:.9rem;border-radius:14px;font-weight:600;letter-spacing:.8px;font-size:1rem;cursor:pointer;transition:background .3s,transform .25s}
+    button:hover{background:rgba(255,255,255,.5)}button:active{transform:scale(.97)}
+
+    /* ERROR MESSAGE */
+    .error-msg{position:absolute;bottom:-2.2rem;left:50%;transform:translateX(-50%) translateY(-10px);color:#ff6b6b;font-weight:600;text-align:center;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .4s,transform .4s}
+    .error-msg.show{opacity:1;transform:translateX(-50%) translateY(0);animation:shake .45s linear}
+    @keyframes shake{0%{transform:translateX(-50%) translateY(0)}25%{transform:translateX(calc(-50% -6px))}50%{transform:translateX(calc(-50% +6px))}75%{transform:translateX(calc(-50% -4px))}100%{transform:translateX(-50%)}}
+
+    @media(max-width:360px){input{font-size:.9rem;padding:.8rem 2.2rem .8rem .8rem}button{font-size:.9rem}}
+  </style>
+</head>
+<body>
+  <div class="login-card" id="card">
+    <div class="profile-pic" tabindex="0">
+      <!-- Use your own local image; ensure the file sits beside this HTML or provide full path -->
+      <img src="WhatsApp Image 2025-07-11 at 15.37.25_c4e75841.jpg" alt="User avatar" />
+    </div>
+
+    <form id="loginForm" autocomplete="off">
+      <div class="input-field"><input type="text" id="musicId" placeholder="Music ID" required></div>
+      <div class="input-field"><input type="password" id="password" placeholder="Password" required><i id="togglePassword" class="fas fa-eye toggle-eye" aria-label="Show/Hide password"></i></div>
+      <button type="submit">Access Library</button>
+    </form>
+    <div id="error" class="error-msg" aria-live="polite"></div>
+  </div>
+
+  <script>
+    /* Hard‑coded credentials */
+    const CORRECT_ID='Dinesh';
+    const CORRECT_PWD='Gon@1976';
+
+    /* Toggle eye */
+    const pwdInput=document.getElementById('password');
+    document.getElementById('togglePassword').addEventListener('click',e=>{
+      const hidden=pwdInput.type==='password';
+      pwdInput.type=hidden?'text':'password';
+      e.currentTarget.classList.toggle('fa-eye-slash',hidden);
+    });
+
+    /* Validation */
+    const form=document.getElementById('loginForm');
+    const errorMsg=document.getElementById('error');
+    const card=document.getElementById('card');
+
+    form.addEventListener('submit',e=>{
+      e.preventDefault();
+      const user=document.getElementById('musicId').value.trim();
+      const pass=pwdInput.value;
+
+      if(user===CORRECT_ID && pass===CORRECT_PWD){
+        errorMsg.classList.remove('show');
+        card.classList.add('fade-out');
+        setTimeout(()=>window.location.href='index1.html',850);
+      }else{
+        errorMsg.textContent='❌ Wrong Music ID or Password';
+        errorMsg.classList.add('show');
+        setTimeout(()=>errorMsg.classList.remove('show'),2500);
+      }
+    });
+  </script>
+</body>
+</html> 
