@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="pro-plus-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard PRO PLUS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/docx@8.2.2/dist/docx.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+    <!-- BACKGROUND EFFECTS -->
+    <div class="background-grid"></div>
+    <div class="background-glow"></div>
+    <!-- Dynamic backgrounds will be injected here by JS -->
+
+
+    <!-- MAIN PRO PLUS LAYOUT -->
+    <div id="pro-plus-layout" class="flex h-screen">
+        <!-- Main Content -->
+        <main id="main-content" class="main-content-base w-full overflow-y-auto">
+            <!-- All PRO PLUS content generated here -->
+        </main>
+        
+        <!-- Sidebar / Bottom Navigation Bar -->
+        <nav class="sidebar z-40">
+             <div class="sidebar-header">PRO PLUS</div>
+            <div class="sidebar-content">
+                <button onclick="changeTab('dashboard')" class="nav-btn" data-tab="dashboard">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
+                     <span class="nav-text">Dashboard</span>
+                </button>
+                <button onclick="changeTab('projects')" class="nav-btn" data-tab="projects">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                     <span class="nav-text">Projects</span>
+                </button>
+                <button onclick="changeTab('habits')" class="nav-btn" data-tab="habits">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="m9 14 2 2 4-4"></path></svg>
+                     <span class="nav-text">Habits</span>
+                </button>
+                <button onclick="changeTab('command')" class="nav-btn" data-tab="command">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                     <span class="nav-text">Command</span>
+                </button>
+                <button onclick="changeTab('journal')" class="nav-btn" data-tab="journal">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                     <span class="nav-text">Journal</span>
+                </button>
+                <button onclick="changeTab('settings')" class="nav-btn settings-nav-btn" data-tab="settings">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82-.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+                     <span class="nav-text">Settings</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- MODALS -->
+    <div id="project-modal" class="modal-container">
+         <div class="modal-overlay"></div>
+        <div class="glass-card modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="project-modal-title" class="text-2xl font-bold font-orbitron text-[--accent-color]">New Project</h2>
+                <button onclick="closeModal('project-modal')" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+            </div>
+            <form id="project-form" class="space-y-4">
+                <input type="hidden" id="project-id">
+                <input type="text" id="project-name" placeholder="Project Name" class="pro-input w-full" required>
+                <textarea id="project-description" placeholder="Project Description..." class="pro-input w-full h-24" required></textarea>
+                <div class="flex items-center gap-4">
+                    <label class="text-sm">Deadline:</label>
+                    <input type="date" id="project-deadline" class="pro-input flex-grow" required>
+                </div>
+                <button type="submit" class="pro-btn font-semibold w-full">Save Project</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="task-modal" class="modal-container">
+        <div class="modal-overlay"></div>
+        <div class="glass-card modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold font-orbitron text-[--accent-color]">New Task</h2>
+                <button onclick="closeModal('task-modal')" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+            </div>
+            <form id="task-form" class="space-y-4">
+                <input type="hidden" id="task-project-id">
+                <input type="text" id="task-text" placeholder="Task description..." class="pro-input w-full" required>
+                <div class="flex items-center gap-4">
+                    <label class="text-sm">Priority:</label>
+                    <select id="task-priority" class="pro-input flex-grow" required>
+                        <option value="1">Low</option>
+                        <option value="2" selected>Medium</option>
+                        <option value="3">High</option>
+                    </select>
+                </div>
+                <button type="submit" class="pro-btn font-semibold w-full">Add Task</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="habit-modal" class="modal-container">
+         <div class="modal-overlay"></div>
+        <div class="glass-card modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="habit-modal-title" class="text-2xl font-bold font-orbitron text-[--accent-color]">New Habit</h2>
+                <button onclick="closeModal('habit-modal')" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+            </div>
+            <form id="habit-form" class="space-y-4">
+                <input type="hidden" id="habit-id">
+                <input type="text" id="habit-text" placeholder="Habit description..." class="pro-input w-full" required>
+                <div class="flex items-center gap-4">
+                    <label class="text-sm">Priority:</label>
+                    <select id="habit-priority" class="pro-input flex-grow" required>
+                        <option value="1">1 (Lowest)</option>
+                        <option value="2">2</option>
+                        <option value="3" selected>3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 (Highest)</option>
+                    </select>
+                </div>
+                <button type="submit" class="pro-btn font-semibold w-full">Save Habit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="confirmation-modal" class="modal-container">
+         <div class="modal-overlay"></div>
+        <div class="glass-card modal-content text-center">
+            <h2 id="confirmation-title" class="text-2xl font-bold mb-4 font-orbitron text-[--accent-color]">Confirm Action</h2>
+            <p id="confirmation-message" class="text-secondary mb-6">This action cannot be undone.</p>
+            <div id="confirmation-buttons" class="flex justify-center gap-4">
+                <!-- Buttons are dynamically inserted here by JS -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Full Schedule Modal -->
+    <div id="schedule-modal" class="modal-container">
+         <div class="modal-overlay"></div>
+        <div class="glass-card modal-content schedule-modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="schedule-modal-title" class="text-2xl font-bold font-orbitron text-[--accent-color]">Full Weekly Schedule</h2>
+                <button onclick="closeModal('schedule-modal')" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+            </div>
+            <div id="schedule-modal-body" class="overflow-y-auto max-h-[70vh] p-1">
+                <!-- Full week schedule will be rendered here by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Day View Modal -->
+    <div id="day-view-modal" class="modal-container">
+         <div class="modal-overlay"></div>
+        <div class="glass-card modal-content schedule-modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="day-view-modal-title" class="text-2xl font-bold font-orbitron text-[--accent-color]">Day View</h2>
+                <button onclick="closeModal('day-view-modal')" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+            </div>
+            <div id="day-view-modal-body" class="overflow-y-auto max-h-[70vh] p-1">
+                <!-- Day view timeline will be rendered here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Schedule Event Modal -->
+    <div id="schedule-event-modal" class="modal-container">
+         <div class="modal-overlay"></div>
+        <div class="glass-card modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="schedule-event-modal-title" class="text-2xl font-bold font-orbit-ron text-[--accent-color]">Add Event</h2>
+                <button onclick="closeModal('schedule-event-modal')" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+            </div>
+            <form id="schedule-event-form" class="space-y-4">
+                <input type="hidden" id="schedule-day-key">
+                <input type="hidden" id="schedule-event-id">
+                <input type="hidden" id="schedule-event-original-type">
+
+                <div>
+                    <label class="block text-sm font-medium text-secondary mb-1">Event Type</label>
+                    <select id="schedule-event-type" class="pro-input w-full">
+                        <option value="class">Class</option>
+                        <option value="gym">Gym</option>
+                        <option value="otherTask">Other Task</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <label class="text-sm">Time:</label>
+                    <input type="time" id="schedule-event-start-time" class="pro-input flex-grow" required>
+                    <span>-</span>
+                    <input type="time" id="schedule-event-end-time" class="pro-input flex-grow" required>
+                </div>
+                <input type="text" id="schedule-event-name" placeholder="Event Name / Title" class="pro-input w-full" required>
+                
+                <div id="event-specific-fields">
+                    <!-- Fields for Class -->
+                    <div id="class-fields">
+                        <input type="text" id="schedule-event-location" placeholder="Location (optional)" class="pro-input w-full mt-4">
+                    </div>
+                    <!-- Fields for Gym -->
+                    <div id="gym-fields" class="hidden">
+                        <div id="gym-workout-container" class="space-y-2 mt-4">
+                            <!-- JS will add exercise fields here -->
+                        </div>
+                        <button type="button" id="add-exercise-btn" class="secondary-btn w-full mt-2 text-sm">Add Exercise</button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="pro-btn font-semibold w-full">Save Event</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js" type="module" defer></script>
+</body>
+</html>
